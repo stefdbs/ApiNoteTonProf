@@ -10,7 +10,6 @@ module.exports = (sequelize) => {
         },
         id_formation: {
             type: DataTypes.INTEGER(10),
-            allowNull: false
         },
         nom: {
             type: DataTypes.STRING(100),
@@ -26,11 +25,13 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING,
             validate: {
                 isEmail: true
-            }
+            },
+            allowNull: false
         },
         password: {
             type: DataTypes.STRING(64),
-            is: /^[0-9a-f]{64}$/i
+            is: /^[0-9a-f]{64}$/i,
+            allowNull: false
         }
 
 

@@ -16,25 +16,25 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use(express.json());
 
-app.use(cors({
-    origin: '*',
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-    allowedHeaders: "Origin, X-Requested-With, x-access-token, role, Content, Accept, Content-Type, Authorization"
-}))
+// app.use(cors({
+//     origin: '*',
+//     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+//     allowedHeaders: "Origin, X-Requested-With, x-access-token, role, Content, Accept, Content-Type, Authorization"
+// }))
 
-/* Mise en place reponses headers */
-// app.use((req, res, next) => {
-//     res.setHeader("Access-Control-Allow-Origin", "*");
-//     res.setHeader(
-//         "Access-Control-Allow-Headers",
-//         "Origin, X-Requested-With, x-access-token, role, Content, Accept, Content-Type, Authorization"
-//     );
-//     res.setHeader(
-//         "Access-Control-Allow-Methods",
-//         "GET, POST, PUT, DELETE, PATCH, OPTIONS"
-//     );
-//     next();
-// });
+//Mise en place reponses headers */
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, x-access-token, role, Content, Accept, Content-Type, Authorization"
+    );
+    res.setHeader(
+        "Access-Control-Allow-Methods",
+        "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+    );
+    next();
+});
 
 /* Securite en tete */
 // const helmet = require("helmet");
@@ -61,6 +61,7 @@ app.use(cors({
 const FormationRoutes = require("./routes/formation.routes");
 const ModuleRoutes = require("./routes/module.routes");
 const FormateurRoutes = require("./routes/formateur.routes")
+const EleveRoutes = require("./routes/eleve.routes");
 
 
 //routage principal
@@ -70,7 +71,10 @@ app.get('/', (req, res, next) => res.send('you are online good job'))
 app.use("/formations", FormationRoutes)
 app.use("/modules", ModuleRoutes)
 app.use("/formateurs", FormateurRoutes)
+app.use("/eleves", EleveRoutes)
 
+
+//app.use("/api/auth", EleveRoutes);
 
 
 
