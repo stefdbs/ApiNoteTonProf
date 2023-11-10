@@ -59,14 +59,22 @@ app.use(cors({
 
 // ROUTERS 
 const FormationRoutes = require("./routes/formation.routes");
+const ModuleRoutes = require("./routes/module.routes");
+const FormateurRoutes = require("./routes/formateur.routes")
+
 
 //routage principal
-app.get('/', (req, res, next) => res.send('im online good job'))
+app.get('/', (req, res, next) => res.send('you are online good job'))
+
 
 app.use("/formations", FormationRoutes)
+app.use("/modules", ModuleRoutes)
+app.use("/formateurs", FormateurRoutes)
 
 
-app.all('*', (req, res) => res.status(501).send('you are loste poor baby'))
+
+
+app.all('*', (req, res) => res.status(501).send('you are lost poor baby'))
 /***********************************/
 
 //routage

@@ -11,10 +11,7 @@ module.exports = (sequelize) => {
             type: DataTypes.INTEGER(10),
             defaultvalue: '',
         },
-        id_Module: {
-            type: DataTypes.INTEGER(10),
-            allowNull: false
-        },
+
         value: {
             type: DataTypes.INTEGER(2),
             defaultvalue: 0,
