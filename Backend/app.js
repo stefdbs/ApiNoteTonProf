@@ -3,8 +3,6 @@
 const express = require("express");
 const path = require("path");
 
-
-
 /*****************************/
 /*** Initialisation de l'API */
 const app = express();
@@ -49,12 +47,15 @@ app.use(
 /***********************************/
 /*** Import des modules de routage */
 
-//const SauceRoutes = require("./routes/sauce.routes");
+const FormationRoutes = require("./routes/formation.routes");
+
+
+
+app.use('/formations', FormationRoutes)
+
 //const UserRoutes = require("./routes/user.routes");
 
-
-// app.use("/images", express.static(path.join(__dirname, "images")));
 // app.use("/api/auth", UserRoutes);
-// app.use("/api/sauces", SauceRoutes);
+//app.use("/api/sauces", SauceRoutes);
 
 module.exports = app;

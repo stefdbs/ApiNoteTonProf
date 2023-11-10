@@ -2,7 +2,7 @@
 const express = require("express");
 const router = express.Router();
 
-const sauceCtrl = require("../controllers/sauce.controller");
+//const sauceCtrl = require("../controllers/sauce.controller");
 
 const GuardAuth = require("../middleware/GuardAuth");
 const GuardMulter = require("../middleware/GuardMulter");
