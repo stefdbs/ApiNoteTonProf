@@ -12,6 +12,11 @@
 //         })
 // }
 
+
+
+
+
+
 // exports.getOneFormation = (req, res, next) => {
 //     // Recup sauce avec id
 //     Formation.findOne({ _id: req.params.id })
@@ -49,17 +54,17 @@
 //         return res.status(500).json({ message: 'databasee error', error: err })
 //     }
 // }
-// // const formationObject = JSON.parse(req.body.formation);
-// // const formation = new Formation({
-// //     ...formationObject,
-// //     imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
-// //     likes: 0,
-// //     dislikes: 0,
-// //     usersLiked: [],
-// //     usersDisliked: [],
-// // })
-// // sauce
-// //     .save()
-// //     .then(() => res.status(200).json({ message: "Sauce enregistré!" }))
-// //     .catch((error) => res.status(400).json({ error: error }))
-// // }
+// const formationObject = JSON.parse(req.body.formation);
+// const formation = new Formation({
+//     ...formationObject,
+//     imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
+//     likes: 0,
+//     dislikes: 0,
+//     usersLiked: [],
+//     usersDisliked: [],
+// })
+// sauce
+//     .save()
+//     .then(() => res.status(200).json({ message: "Sauce enregistré!" }))
+//     .catch((error) => res.status(400).json({ error: error }))
+// }

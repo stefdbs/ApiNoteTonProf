@@ -26,33 +26,39 @@ app.use((req, res, next) => {
 });
 
 /* Securite en tete */
-const helmet = require("helmet");
+// const helmet = require("helmet");
 
-app.use(helmet({
-    crossOriginResourcePolicy: false,
-}));
+// app.use(helmet({
+//     crossOriginResourcePolicy: false,
+// }));
 
-/* RateLimit */
-const rateLimit = require("express-rate-limit");
+// /* RateLimit */
+// const rateLimit = require("express-rate-limit");
 
-app.use(
-    rateLimit({
-        windowMs: 10 * 60 * 1000,
-        max: 100,
-        message:
-            "Vous avez effectué plus de 100 requêtes dans une limite de 10 minutes!",
-        headers: true,
-    })
-);
-/***********************************/
-/*** Import des modules de routage */
-//router
+// app.use(
+//     rateLimit({
+//         windowMs: 10 * 60 * 1000,
+//         max: 100,
+//         message:
+//             "Vous avez effectué plus de 100 requêtes dans une limite de 10 minutes!",
+//         headers: true,
+//     })
+// );
+
+// ROUTERS 
 const FormationRoutes = require("./routes/formation.routes");
 
-//routage
-app.get('', (req, res, next) => res.send('im online good job'))
+//routage principal
+app.get('/', (req, res, next) => res.send('im online good job'))
 
-app.use('/formations', FormationRoutes)
+//app.use("/formations", FormationRoutes)
+
+
+app.all('*', (req, res) => res.status(501).send('you are lost poor baby'))
+/***********************************/
+
+//routage
+
 
 //const UserRoutes = require("./routes/user.routes");
 

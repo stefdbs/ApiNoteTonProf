@@ -8,6 +8,9 @@ let DB = require('./db.config')
 let MONGODB_URL = require('./db.config')
 
 /* Connection BDD mongoose */
+/********************************/
+/*** Start serveur avec test DB */
+
 mongoose
     .connect(process.env.MONGODB_URL, {
         useNewUrlParser: true,
@@ -15,7 +18,8 @@ mongoose
     })
     .then(() => {
         console.log('MONGODB connexion OK')
-        DB.sequelize.authenticate()
+        DB.sequelize
+            .authenticate()
             .then(() => console.log('MariaDB connexion OK'))
             .then(() => {
                 app.listen(process.env.SERVER_PORT, () => {
@@ -26,8 +30,7 @@ mongoose
     })
     .catch(e => console.log('Database error- mongo', e))
 
-/********************************/
-/*** Start serveur avec test DB */
+
 
 
 

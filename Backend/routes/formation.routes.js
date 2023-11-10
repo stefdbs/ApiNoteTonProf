@@ -6,7 +6,7 @@ const formationCtrl = require("../controllers/formation.controller");
 
 const GuardAuth = require("../middleware/GuardAuth");
 
-/*Middle time*/
+/*Middleware time*/
 router.use((req, res, next) => {
     const event = new Date()
     console.log(`Formation time: `, event.toString())
@@ -14,7 +14,7 @@ router.use((req, res, next) => {
 })
 /* Routage Formation */
 
-// router.get("/", formationCtrl.getAllFormations);
+//router.get("/", formationCtrl.getAllFormations);
 
 // router.get("/:id", formationCtrl.getOneFormation);
 
