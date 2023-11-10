@@ -22,10 +22,14 @@ db.Formation = require('./models/m_formation')(sequelize)
 db.Eleve = require('./models/m_eleve')(sequelize)
 db.Formateur = require('./models/m_formateur')(sequelize)
 db.Module = require('./models/m_module')(sequelize)
-db.note = require('./models/m_note')(sequelize)
+db.Note = require('./models/m_note')(sequelize)
 
 db.Formation.hasMany(db.Eleve, { foreignKey: 'id_formation' })
 db.Eleve.belongsTo(db.Formation, { foreignKey: 'id_formation' })
+
+db.Formation.hasMany(db.Module, { foreignKey: 'id_formation' })
+db.Module.belongsTo(db.Formation, { foreignKey: 'id_formation' })
+
 
 
 /*********************************/

@@ -1,8 +1,10 @@
 /* Import des modules necessaires */
 const express = require("express");
-const router = express.Router();
-
 const formationCtrl = require("../controllers/formation.controller");
+
+let router = express.Router();
+
+
 
 const GuardAuth = require("../middleware/GuardAuth");
 
@@ -14,11 +16,11 @@ router.use((req, res, next) => {
 })
 /* Routage Formation */
 
-//router.get("/", formationCtrl.getAllFormations);
+router.get("/", formationCtrl.getAllFormations);
 
-// router.get("/:id", formationCtrl.getOneFormation);
+router.get("/:id", formationCtrl.getFormation);
 
-// router.post("/", formationCtrl.createFormation);
+router.put("/", formationCtrl.addFormation);
 
 
 module.exports = router;

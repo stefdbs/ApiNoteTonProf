@@ -1,6 +1,7 @@
 /* Import des modules necessaires */
 const express = require("express");
 const dotenv = require("dotenv").config({ encoding: "latin1" });
+const cors = require('cors')
 const mongoose = require("mongoose");
 
 /*** Import de la connexion à la DB */
@@ -15,19 +16,25 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use(express.json());
 
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    allowedHeaders: "Origin, X-Requested-With, x-access-token, role, Content, Accept, Content-Type, Authorization"
+}))
+
 /* Mise en place reponses headers */
-app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader(
-        "Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, x-access-token, role, Content, Accept, Content-Type, Authorization"
-    );
-    res.setHeader(
-        "Access-Control-Allow-Methods",
-        "GET, POST, PUT, DELETE, PATCH, OPTIONS"
-    );
-    next();
-});
+// app.use((req, res, next) => {
+//     res.setHeader("Access-Control-Allow-Origin", "*");
+//     res.setHeader(
+//         "Access-Control-Allow-Headers",
+//         "Origin, X-Requested-With, x-access-token, role, Content, Accept, Content-Type, Authorization"
+//     );
+//     res.setHeader(
+//         "Access-Control-Allow-Methods",
+//         "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+//     );
+//     next();
+// });
 
 /* Securite en tete */
 // const helmet = require("helmet");
@@ -56,10 +63,10 @@ const FormationRoutes = require("./routes/formation.routes");
 //routage principal
 app.get('/', (req, res, next) => res.send('im online good job'))
 
-//app.use("/formations", FormationRoutes)
+app.use("/formations", FormationRoutes)
 
 
-app.all('*', (req, res) => res.status(501).send('you are lost poor baby'))
+app.all('*', (req, res) => res.status(501).send('you are loste poor baby'))
 /***********************************/
 
 //routage
