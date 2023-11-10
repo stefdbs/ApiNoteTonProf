@@ -46,10 +46,11 @@ app.use(
 );
 /***********************************/
 /*** Import des modules de routage */
-
+//router
 const FormationRoutes = require("./routes/formation.routes");
 
-
+//routage
+app.get('', (req, res, next) => res.send('im online good job'))
 
 app.use('/formations', FormationRoutes)
 

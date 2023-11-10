@@ -14,11 +14,11 @@ router.use((req, res, next) => {
 })
 /* Routage Formation */
 
-router.get("", formationCtrl.getAllFormations);
+// router.get("/", formationCtrl.getAllFormations);
 
-router.get("/:id", formationCtrl.getOneFormation);
+// router.get("/:id", formationCtrl.getOneFormation);
 
-router.post("/", formationCtrl.createFormation);
+// router.post("/", formationCtrl.createFormation);
 
 
 module.exports = router;
