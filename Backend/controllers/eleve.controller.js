@@ -2,6 +2,8 @@ const DB = require('../db.config')
 const Eleve = DB.Eleve
 const Formation = DB.Formation
 const Module = DB.Module
+const Formateur = DB.Formateur
+
 
 
 const bcrypt = require("bcrypt");
@@ -59,18 +61,20 @@ exports.getEleve = async (req, res) => {
             include: [
                 {
                     model: Formation,
-                    attributes: ['id_formation', 'nom'],
+                    attributes: ['nom'],
                     include:
                     {
                         model: Module,
-                        attributes: ['id_module', 'nom', 'id_formateur']
+                        attributes: ['nom'],
+                        include:
+                        {
+                            model: Formateur,
+                            attributes: ['nom', 'prenom']
+                        },
+
                     },
                 },
-                // {
-                //     model: Module,
-                //     attributes: ['id_module', 'nom', 'id_formation'],
-                //     include: [{ model: Formation, attributes: ['id_formation', 'nom'] }]
-                // }
+
             ]
         })
 
