@@ -1,5 +1,7 @@
 const DB = require('../db.config')
 const Eleve = DB.Eleve
+const Formation = DB.Formation
+const Module = DB.Module
 
 
 const bcrypt = require("bcrypt");
@@ -47,12 +49,15 @@ exports.getEleve = async (req, res) => {
 
     // Vérification si le champ id est présent et cohérent
     if (!eleveId) {
-        return res.json(400).json({ message: 'Missing Parameter' })
+        return res.status(400).json({ message: 'Missing Parameter' })
     }
 
     try {
         // Récupération
-        let eleve = await Eleve.findOne({ where: { id: eleveId } })
+        let eleve = await Eleve.findOne({
+            where: { id_eleve: eleveId },
+            include: { model: Formation, attributes: ['id_formation', 'nom'] }
+        })
 
         // Test si résultat
         if (eleve === null) {

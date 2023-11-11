@@ -38,7 +38,7 @@ exports.getFormation = async (req, res) => {
 
     // Vérification si le champ id est présent et cohérent
     if (!formationId) {
-        return res.json(400).json({ message: 'Missing Parameter' })
+        return res.status(400).json({ message: 'Missing Parameter' })
     }
 
     try {
