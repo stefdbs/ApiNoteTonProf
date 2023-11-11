@@ -3,7 +3,7 @@ const Eleve = DB.Eleve
 const Formation = DB.Formation
 const Module = DB.Module
 const Formateur = DB.Formateur
-
+const Note = DB.Note
 
 
 const bcrypt = require("bcrypt");
@@ -69,7 +69,7 @@ exports.getEleve = async (req, res) => {
                         include:
                         {
                             model: Formateur,
-                            attributes: ['nom', 'prenom']
+                            attributes: ['nom', 'prenom', 'id_formateur']
                         },
 
                     },
@@ -90,7 +90,47 @@ exports.getEleve = async (req, res) => {
     }
 }
 
+exports.giveNote = (req, res) => {
+    const eleveId = parseInt(req.params.id)
+    const formateurId = parseInt(req.body.id_formateur)// Assurez-vous que id_module est dans le corps de la requête
+    const noteValue = parseInt(req.body.value)
+    const noteComment = req.body.comment
 
+    if (!eleveId || !formateurId || isNaN(noteValue) || !noteComment) {
+        return res.status(400).json({ message: 'Missing Data or invalid' });
+    }
+
+    try {
+        // Vérification si le formateur existe
+        let formateur = Formateur.findOne({ where: { id_formateur: formateurId }, raw: true })
+        if (formateur === null) {
+            return res.status(409).json({ message: `The formateur ${nom} doesn't exists !` })
+        }
+        // Vérification si l'éleve a déjà donné une note
+        const existingNote = Note.findOne({
+            where: {
+                id_eleve: eleveId,
+                id_formateur: formateurId
+            }
+        });
+        if (existingNote) {
+            return res.status(400).json({ message: 'You have already noted this teacher' });
+        }
+        const note = Note.create({
+            id_eleve: eleveId,
+            id_formateur: formateurId,
+            value: noteValue,
+            comment: noteComment,
+        })
+        return res.json({ message: "note given", data: note })
+
+    } catch (err) {
+        return res.status(500).json({ message: 'Database Error', error: err })
+    }
+
+
+
+}
 exports.addEleve = async (req, res) => {
     const { nom, prenom, email, password, id_formation } = req.body
 
