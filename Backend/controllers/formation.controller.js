@@ -1,5 +1,6 @@
 const DB = require('../db.config')
 const Formation = DB.Formation
+const Module = DB.Module
 
 
 exports.getAllFormations = (req, res) => {
@@ -43,7 +44,14 @@ exports.getFormation = async (req, res) => {
 
     try {
         // Récupération
-        let formation = await Formation.findOne({ where: { id_formation: formationId } })
+        let formation = await Formation.findOne({
+            where: { id_formation: formationId },
+            include:
+            {
+                model: Module,
+                attributes: ['id_module', 'nom', 'id_formateur']
+            },
+        })
 
         // Test si résultat
         if (formation === null) {

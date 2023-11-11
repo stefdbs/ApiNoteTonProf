@@ -56,7 +56,22 @@ exports.getEleve = async (req, res) => {
         // Récupération
         let eleve = await Eleve.findOne({
             where: { id_eleve: eleveId },
-            include: { model: Formation, attributes: ['id_formation', 'nom'] }
+            include: [
+                {
+                    model: Formation,
+                    attributes: ['id_formation', 'nom'],
+                    include:
+                    {
+                        model: Module,
+                        attributes: ['id_module', 'nom', 'id_formateur']
+                    },
+                },
+                // {
+                //     model: Module,
+                //     attributes: ['id_module', 'nom', 'id_formation'],
+                //     include: [{ model: Formation, attributes: ['id_formation', 'nom'] }]
+                // }
+            ]
         })
 
         // Test si résultat

@@ -1,5 +1,6 @@
 const DB = require('../db.config')
 const Module = DB.Module
+const Formateur = DB.Formateur
 
 
 exports.getAllModules = (req, res) => {
@@ -13,12 +14,19 @@ exports.getModule = async (req, res) => {
 
     // Vérification si le champ id est présent et cohérent
     if (!moduleId) {
-        return res.json(400).json({ message: 'Missing Parameter' })
+        return res.status(400).json({ message: 'Missing Parameter' })
     }
 
     try {
         // Récupération
-        let modules = await Module.findOne({ where: { id: moduleId } })
+        let modules = await Module.findOne({
+            where: { id_module: moduleId },
+            include:
+            {
+                model: Formateur,
+                attributes: ['id_formateur', 'nom', 'prenom']
+            },
+        })
 
         // Test si résultat
         if (modules === null) {
@@ -26,7 +34,7 @@ exports.getModule = async (req, res) => {
         }
 
         // Renvoi 
-        return res.json({ data: module })
+        return res.json({ data: modules })
     } catch (err) {
         return res.status(500).json({ message: 'Database Error', error: err })
     }
