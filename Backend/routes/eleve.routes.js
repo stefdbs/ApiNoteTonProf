@@ -14,7 +14,7 @@ const GuardPasswordValidator = require("../middleware/GuardPasswordValidator");
 //router.post("/signup", userCtrl.signup);
 router.get("/", eleveCtrl.getAllEleves);
 
-//router.get("/:id", moduleCtrl.getModule);
+router.get("/:id_eleve", eleveCtrl.getEleve);
 
 router.put("/", eleveCtrl.addEleve);
 router.post("/login", eleveCtrl.login);

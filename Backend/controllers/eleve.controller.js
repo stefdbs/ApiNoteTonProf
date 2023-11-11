@@ -42,6 +42,31 @@ exports.getAllEleves = (req, res) => {
         .catch(e => res.status(500).json({ message: 'Database Error', error: e }))
 }
 
+exports.getEleve = async (req, res) => {
+    let eleveId = parseInt(req.params.id)
+
+    // Vérification si le champ id est présent et cohérent
+    if (!eleveId) {
+        return res.json(400).json({ message: 'Missing Parameter' })
+    }
+
+    try {
+        // Récupération
+        let eleve = await Eleve.findOne({ where: { id: eleveId } })
+
+        // Test si résultat
+        if (eleve === null) {
+            return res.status(404).json({ message: 'This student does not exist !' })
+        }
+
+        // Renvoi 
+        return res.json({ data: eleve })
+    } catch (err) {
+        return res.status(500).json({ message: 'Database Error', error: err })
+    }
+}
+
+
 exports.addEleve = async (req, res) => {
     const { nom, prenom, email, password, id_formation } = req.body
 

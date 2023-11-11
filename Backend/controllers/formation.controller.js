@@ -8,6 +8,31 @@ exports.getAllFormations = (req, res) => {
         .catch(e => res.status(500).json({ message: 'Database Error', error: e }))
 }
 
+// exports.getFormation = async (req, res) => {
+//     let formationId = req.params
+//     console.log('req.params', formationId, typeof formationId)
+
+//     // Vérification si le champ id est présent et cohérent
+//     if (!formationId) {
+//         return res.json(400).json({ message: 'Missing Parameter' })
+//     }
+
+//     try {
+//         // Récupération
+//         let formation = await Formation.findOne({ where: { id_formation: formationId } })
+
+//         // Test si résultat
+//         if (formation === null) {
+//             return res.status(404).json({ message: 'This formation does not exist !' })
+//         }
+
+//         // Renvoi 
+//         return res.json({ data: formation })
+//     } catch (err) {
+//         return res.status(500).json({ message: 'Database Error', error: err })
+//     }
+// }
+
 exports.getFormation = async (req, res) => {
     let formationId = parseInt(req.params.id)
 
@@ -18,7 +43,7 @@ exports.getFormation = async (req, res) => {
 
     try {
         // Récupération
-        let formation = await Formation.findOne({ where: { id: formationId } })
+        let formation = await Formation.findOne({ where: { id_formation: formationId } })
 
         // Test si résultat
         if (formation === null) {

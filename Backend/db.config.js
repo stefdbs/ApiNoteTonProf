@@ -30,13 +30,11 @@ db.Eleve.belongsTo(db.Formation, { foreignKey: 'id_formation' })
 db.Formation.hasMany(db.Module, { foreignKey: 'id_formation' })
 db.Module.belongsTo(db.Formation, { foreignKey: 'id_formation' })
 
+db.Formateur.hasMany(db.Module, { foreignKey: 'id_formateur', onDelete: 'cascade' });
 db.Module.belongsTo(db.Formateur, { foreignKey: 'id_formateur' });
-db.Formateur.hasMany(db.Module, { foreignKey: 'id_formateur' });
-
-db.Eleve.hasMany(db.Module, { foreignKey: 'id_formation' })
-db.Module.belongsTo(db.Formation, { foreignKey: 'id_formation' })
 
 db.Note.belongsTo(db.Eleve, { foreignKey: 'id_eleve' });
+
 db.Note.belongsTo(db.Formateur, { foreignKey: 'id_formateur' });
 /*********************************/
 /*** Synchronisation des modèles */
