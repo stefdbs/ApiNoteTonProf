@@ -25,8 +25,8 @@ exports.login = (req, res, next) => {
                     }
 
                     res.status(200).json({
-                        eleveId: eleve._id,
-                        token: jwt.sign({ eleveId: eleve._id }, process.env.SECRET_KEY, {
+                        eleveId: eleve.id_eleve,
+                        token: jwt.sign({ eleveId: eleve.id_eleve }, process.env.SECRET_KEY, {
                             expiresIn: "1h"
                         })
                     })
@@ -74,7 +74,6 @@ exports.getEleve = async (req, res) => {
 
                     },
                 },
-
             ]
         })
 
@@ -116,21 +115,20 @@ exports.giveNote = (req, res) => {
         if (existingNote) {
             return res.status(400).json({ message: 'You have already noted this teacher' });
         }
+
         const note = Note.create({
             id_eleve: eleveId,
             id_formateur: formateurId,
             value: noteValue,
             comment: noteComment,
         })
-        return res.json({ message: "note given", data: note })
+        return res.json({ message: "note given" })
 
     } catch (err) {
         return res.status(500).json({ message: 'Database Error', error: err })
     }
-
-
-
 }
+
 exports.addEleve = async (req, res) => {
     const { nom, prenom, email, password, id_formation } = req.body
 

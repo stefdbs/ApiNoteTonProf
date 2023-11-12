@@ -58,10 +58,11 @@ app.use((req, res, next) => {
 
 
 // ROUTERS 
-const FormationRoutes = require("./routes/formation.routes");
-const ModuleRoutes = require("./routes/module.routes");
+const FormationRoutes = require("./routes/formation.routes")
+const ModuleRoutes = require("./routes/module.routes")
 const FormateurRoutes = require("./routes/formateur.routes")
-const EleveRoutes = require("./routes/eleve.routes");
+const EleveRoutes = require("./routes/eleve.routes")
+const AdminRoutes = require("./routes/admin.routes")
 
 
 //routage principal
@@ -72,6 +73,7 @@ app.use("/formations", FormationRoutes)
 app.use("/modules", ModuleRoutes)
 app.use("/formateurs", FormateurRoutes)
 app.use("/eleves", EleveRoutes)
+app.use("/admin", AdminRoutes)
 
 
 //app.use("/api/auth", EleveRoutes);
