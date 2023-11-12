@@ -37,27 +37,28 @@ app.use((req, res, next) => {
 });
 
 /* Securite en tete */
-// const helmet = require("helmet");
+const helmet = require("helmet");
 
-// app.use(helmet({
-//     crossOriginResourcePolicy: false,
-// }));
+app.use(helmet({
+    crossOriginResourcePolicy: false,
+}));
 
 // /* RateLimit */
-// const rateLimit = require("express-rate-limit");
+const rateLimit = require("express-rate-limit");
 
-// app.use(
-//     rateLimit({
-//         windowMs: 10 * 60 * 1000,
-//         max: 100,
-//         message:
-//             "Vous avez effectué plus de 100 requêtes dans une limite de 10 minutes!",
-//         headers: true,
-//     })
-// );
+app.use(
+    rateLimit({
+        windowMs: 10 * 60 * 1000,
+        max: 100,
+        message:
+            "Vous avez effectué plus de 100 requêtes dans une limite de 10 minutes!",
+        headers: true,
+    })
+);
 
 
 // ROUTERS 
+const AuthRoutes = require("./routes/auth.routes")
 const FormationRoutes = require("./routes/formation.routes")
 const ModuleRoutes = require("./routes/module.routes")
 const FormateurRoutes = require("./routes/formateur.routes")
@@ -67,13 +68,17 @@ const AdminRoutes = require("./routes/admin.routes")
 
 //routage principal
 app.get('/', (req, res, next) => res.send('you are online good job'))
+app.use("/login", AuthRoutes)
+app.use("/admin", AdminRoutes)
 
+//mettre des middleware pour fermer l'acccès
 
+app.use("/eleves", EleveRoutes)
 app.use("/formations", FormationRoutes)
 app.use("/modules", ModuleRoutes)
 app.use("/formateurs", FormateurRoutes)
-app.use("/eleves", EleveRoutes)
-app.use("/admin", AdminRoutes)
+
+
 
 
 //app.use("/api/auth", EleveRoutes);

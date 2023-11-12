@@ -12,13 +12,15 @@ const GuardPasswordValidator = require("../middleware/GuardPasswordValidator");
 // router.post("/login", limiter, userCtrl.login);
 
 //router.post("/signup", userCtrl.signup);
+
+//router.post("/login", limiter,eleveCtrl.login);
+
 router.get("/", eleveCtrl.getAllEleves);
 
 router.get("/:id", eleveCtrl.getEleve);
 router.post("/:id", eleveCtrl.giveNote)
 
 router.put("/", eleveCtrl.addEleve);
-router.post("/login", eleveCtrl.login);
 
 module.exports = router
 

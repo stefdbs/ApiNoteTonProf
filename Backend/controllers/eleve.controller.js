@@ -11,34 +11,35 @@ const dotenv = require("dotenv").config({ encoding: "latin1" });
 const jwt = require("jsonwebtoken");
 
 
-exports.login = (req, res, next) => {
-    Eleve.findOne({ email: req.body.email })
-        .then((eleve) => {
-            if (!eleve) {
-                return res.status(400).json({ error: "Utilisateur non trouvé " });
-            }
 
-            bcrypt.compare(req.body.password, eleve.password)
-                .then((valid) => {
-                    if (!valid) {
-                        return res.status(400).json({ error: "Mot de passe incorrect!" })
-                    }
+// exports.login = (req, res, next) => {
+//     Eleve.findOne({ email: req.body.email })
+//         .then((eleve) => {
+//             if (!eleve) {
+//                 return res.status(400).json({ error: "Utilisateur non trouvé " });
+//             }
 
-                    res.status(200).json({
-                        eleveId: eleve.id_eleve,
-                        token: jwt.sign({ eleveId: eleve.id_eleve }, process.env.SECRET_KEY, {
-                            expiresIn: "1h"
-                        })
-                    })
+//             bcrypt.compare(req.body.password, eleve.password)
+//                 .then((valid) => {
+//                     if (!valid) {
+//                         return res.status(400).json({ error: "Mot de passe incorrect!" })
+//                     }
 
-                })
-                .catch((error) => res.status(500).json({ error }));
+//                     res.status(200).json({
+//                         eleveId: eleve.id_eleve,
+//                         token: jwt.sign({ eleveId: eleve.id_eleve }, process.env.SECRET_KEY, {
+//                             expiresIn: "1h"
+//                         })
+//                     })
 
-        })
-        .catch((error) => {
-            res.status(500).json({ error })
-        })
-}
+//                 })
+//                 .catch((error) => res.status(500).json({ error }));
+
+//         })
+//         .catch((error) => {
+//             res.status(500).json({ error })
+//         })
+// }
 
 exports.getAllEleves = (req, res) => {
     Eleve.findAll()
