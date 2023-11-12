@@ -1,9 +1,5 @@
 const DB = require('../db.config')
-const Eleve = DB.Eleve
-const Formation = DB.Formation
-const Module = DB.Module
-const Formateur = DB.Formateur
-const Note = DB.Note
+const Admin = DB.Admin
 
 
 const bcrypt = require("bcrypt");
@@ -38,23 +34,4 @@ exports.login = (req, res, next) => {
         .catch((error) => {
             res.status(500).json({ error })
         })
-}
-
-exports.getAll = async (req, res) => {
-
-    Formation.findAll()
-        .then(formations => res.json({ data: formations }))
-    // include:
-    // {
-    //     model: Module,
-    //     attributes: ['nom'],
-    //     include:
-    //     {
-    //         model: Formateur,
-    //         attributes: ['nom', 'prenom', 'id_formateur']
-    //     },
-
-    // },
-
-
 }

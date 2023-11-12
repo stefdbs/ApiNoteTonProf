@@ -7,13 +7,9 @@ const eleveCtrl = require("../controllers/eleve.controller");
 const limiter = require("../middleware/GuardLimiter");
 const GuardPasswordValidator = require("../middleware/GuardPasswordValidator");
 
-/* Routage User */
-// router.post("/signup", GuardPasswordValidator, userCtrl.signup);
-// router.post("/login", limiter, userCtrl.login);
+/* Routage Eleve */
 
-//router.post("/signup", userCtrl.signup);
-
-//router.post("/login", limiter,eleveCtrl.login);
+router.post("/", limiter, eleveCtrl.login);
 
 router.get("/", eleveCtrl.getAllEleves);
 

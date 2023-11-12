@@ -15,7 +15,7 @@ router.get("/", moduleCtrl.getAllModules);
 
 router.get("/:id", moduleCtrl.getModule);
 
-router.put("/", moduleCtrl.addModule);
+router.post("/", moduleCtrl.addModule);
 
 
 module.exports = router;

@@ -15,7 +15,7 @@ router.get("/", formateurCtrl.getAllFormateurs);
 
 router.get("/:id", formateurCtrl.getFormateur);
 
-router.put("/", formateurCtrl.addFormateur);
+router.post("/", formateurCtrl.addFormateur);
 
 
 module.exports = router;

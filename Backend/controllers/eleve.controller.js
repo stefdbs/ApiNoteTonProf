@@ -5,41 +5,54 @@ const Module = DB.Module
 const Formateur = DB.Formateur
 const Note = DB.Note
 
-
 const bcrypt = require("bcrypt");
 const dotenv = require("dotenv").config({ encoding: "latin1" });
 const jwt = require("jsonwebtoken");
 
 
 
-// exports.login = (req, res, next) => {
-//     Eleve.findOne({ email: req.body.email })
-//         .then((eleve) => {
-//             if (!eleve) {
-//                 return res.status(400).json({ error: "Utilisateur non trouvé " });
-//             }
+exports.login = (req, res, next) => {
+    Eleve.findOne({ where: { email: req.body.email } })
+        .then((eleve) => {
+            if (!eleve) {
+                return res.status(400).json({ error: "Utilisateur non trouvé " });
+            }
 
-//             bcrypt.compare(req.body.password, eleve.password)
-//                 .then((valid) => {
-//                     if (!valid) {
-//                         return res.status(400).json({ error: "Mot de passe incorrect!" })
-//                     }
 
-//                     res.status(200).json({
-//                         eleveId: eleve.id_eleve,
-//                         token: jwt.sign({ eleveId: eleve.id_eleve }, process.env.SECRET_KEY, {
-//                             expiresIn: "1h"
-//                         })
-//                     })
+            //Methode juste pour tester le token!! mais mot de passe non crypté
+            //Dès que Bcrypt est en ordre, utiliser la méthode en dessous
+            if (req.body.password === eleve.password) {
+                res.status(200).json({
+                    eleveId: eleve.id_eleve,
+                    token: jwt.sign({ eleveId: eleve.id_eleve }, process.env.SECRET_KEY, {
+                        expiresIn: "1h"
+                    })
+                });
+            } else {
+                res.status(400).json({ error: "Mot de passe incorrect!" });
+            }
 
-//                 })
-//                 .catch((error) => res.status(500).json({ error }));
+            // bcrypt.compare(req.body.password, eleve.password)
+            //     .then((valid) => {
+            //         if (!valid) {
+            //             return res.status(400).json({ error: "Mot de passe incorrect!" })
+            //         }
 
-//         })
-//         .catch((error) => {
-//             res.status(500).json({ error })
-//         })
-// }
+            // res.status(200).json({
+            //     eleveId: eleve.id_eleve,
+            //     token: jwt.sign({ eleveId: eleve.id_eleve }, process.env.SECRET_KEY, {
+            //         expiresIn: "1h"
+            //     })
+            // })
+
+            //})
+            //.catch ((error) => res.status(500).json({ error }));
+
+        })
+        .catch((error) => {
+            res.status(500).json({ error })
+        })
+}
 
 exports.getAllEleves = (req, res) => {
     Eleve.findAll()

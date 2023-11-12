@@ -6,7 +6,6 @@ const mongoose = require("mongoose");
 
 /*** Import de la connexion à la DB */
 let DB = require('./db.config')
-let MONGODB_URL = require('./db.config')
 
 /*****************************/
 /*** Initialisation de l'API */
@@ -58,7 +57,6 @@ app.use(
 
 
 // ROUTERS 
-const AuthRoutes = require("./routes/auth.routes")
 const FormationRoutes = require("./routes/formation.routes")
 const ModuleRoutes = require("./routes/module.routes")
 const FormateurRoutes = require("./routes/formateur.routes")
@@ -68,34 +66,20 @@ const AdminRoutes = require("./routes/admin.routes")
 
 //routage principal
 app.get('/', (req, res, next) => res.send('you are online good job'))
-app.use("/login", AuthRoutes)
+app.use("/eleves", EleveRoutes)
 app.use("/admin", AdminRoutes)
 
-//mettre des middleware pour fermer l'acccès
 
-app.use("/eleves", EleveRoutes)
+
+//mettre des middleware pour fermer l'acccès
 app.use("/formations", FormationRoutes)
 app.use("/modules", ModuleRoutes)
 app.use("/formateurs", FormateurRoutes)
 
 
 
-
-//app.use("/api/auth", EleveRoutes);
-
-
-
 app.all('*', (req, res) => res.status(501).send('you are lost poor baby'))
 /***********************************/
-
-//routage
-
-
-//const UserRoutes = require("./routes/user.routes");
-
-// app.use("/api/auth", UserRoutes);
-//app.use("/api/sauces", SauceRoutes);
-
 
 
 

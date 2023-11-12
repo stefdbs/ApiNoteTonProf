@@ -23,6 +23,7 @@ db.Eleve = require('./models/m_eleve')(sequelize)
 db.Formateur = require('./models/m_formateur')(sequelize)
 db.Module = require('./models/m_module')(sequelize)
 db.Note = require('./models/m_note')(sequelize)
+db.Admin = require('./models/m_admin')(sequelize)
 
 db.Formation.hasMany(db.Eleve, { foreignKey: 'id_formation' })
 db.Eleve.belongsTo(db.Formation, { foreignKey: 'id_formation' })

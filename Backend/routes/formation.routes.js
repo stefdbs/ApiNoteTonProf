@@ -20,7 +20,7 @@ router.get("/", formationCtrl.getAllFormations);
 
 router.get("/:id", formationCtrl.getFormation);
 
-router.put("/", formationCtrl.addFormation);
+router.post("/", formationCtrl.addFormation);
 
 
 module.exports = router;
