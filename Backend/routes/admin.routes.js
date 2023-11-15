@@ -8,13 +8,17 @@ const limiter = require("../middleware/GuardLimiter");
 const GuardPasswordValidator = require("../middleware/GuardPasswordValidator");
 
 /* Routage Admin */
+router.post("/login", limiter, adminCtrl.login);
 
+/* Routage Admin sous condition de loggin */
 router.post("/", adminCtrl.addAdmin);
+
+
 
 // router.post("/signup", GuardPasswordValidator, userCtrl.signup);
 
 
-//router.post("/login", limiter, adminCtrl.login);
+
 
 //router.get("/", eleveCtrl.getAllEleve);
 
