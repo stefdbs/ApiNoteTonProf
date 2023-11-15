@@ -7,8 +7,9 @@ const adminCtrl = require("../controllers/admin.controller");
 const limiter = require("../middleware/GuardLimiter");
 const GuardPasswordValidator = require("../middleware/GuardPasswordValidator");
 
-/* Routage User */
+/* Routage Admin */
 
+router.post("/", adminCtrl.addAdmin);
 
 // router.post("/signup", GuardPasswordValidator, userCtrl.signup);
 

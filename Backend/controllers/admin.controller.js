@@ -35,3 +35,26 @@ exports.login = (req, res, next) => {
             res.status(500).json({ error })
         })
 }
+
+exports.addAdmin = async (req, res) => {
+    const { email, password } = req.body
+
+    // Validation des données reçues
+    if (!email || !password) {
+        return res.status(400).json({ message: 'Missing Data' })
+    }
+
+    try {
+        // Vérification 
+        let admin = await Admin.findOne({ where: { email: email }, raw: true })
+        if (admin !== null) {
+            return res.status(409).json({ message: `The admin ${email} already exists !` })
+        }
+
+        // Création 
+        admin = await Admin.create(req.body)
+        return res.json({ message: 'admin Created', data: admin })
+    } catch (err) {
+        return res.status(500).json({ message: 'Database Error', error: err })
+    }
+}
