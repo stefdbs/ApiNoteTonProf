@@ -12,6 +12,7 @@ const checkTokenMiddleware = require('../middleware/GuardAuth')
 router.post("/", limiter, adminCtrl.login);
 
 /* Routage Admin sous condition de loggin */
+
 router.post("/addAdmin", checkTokenMiddleware, GuardPasswordValidator, adminCtrl.addAdmin);
 
 

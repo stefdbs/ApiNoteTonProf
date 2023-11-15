@@ -8,8 +8,6 @@ let router = express.Router();
 
 /* Routage Contact */
 
-
-
 router.post("/", contactCtrl.addContact);
 
 
