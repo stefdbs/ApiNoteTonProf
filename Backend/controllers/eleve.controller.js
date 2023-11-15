@@ -150,10 +150,10 @@ exports.giveNote = async (req, res) => {
         if (
             eleve &&
             eleve.Formation &&
-            eleve.Formation.Modules &&
-            eleve.Formation.Modules[0] &&
-            eleve.Formation.Modules[0].Formateur &&
-            eleve.Formation.Modules[0].Formateur.id_formateur !== formateurId
+            eleve.Formation.Module &&
+            eleve.Formation.Module[0] &&
+            eleve.Formation.Module[0].Formateur &&
+            eleve.Formation.Module[0].Formateur.id_formateur !== formateurId
         ) {
             return res.status(409).json({ message: `The eleve doesn't have this formateur !` });
         }
