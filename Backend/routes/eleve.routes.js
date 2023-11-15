@@ -7,16 +7,16 @@ const eleveCtrl = require("../controllers/eleve.controller");
 const limiter = require("../middleware/GuardLimiter");
 const GuardPasswordValidator = require("../middleware/GuardPasswordValidator");
 
-/* Routage Eleve */
+/* Routage Eleve via loggin Eleve */
 
-router.post("/", limiter, eleveCtrl.login);
+router.post("/login", limiter, eleveCtrl.login);
+router.get("/:id", eleveCtrl.getEleve);
+router.post("/:id_eleve/:id_formateur", eleveCtrl.giveNote)
+
+/* Routage Eleve via loggin Admin */
 
 router.get("/", eleveCtrl.getAllEleves);
-
-router.get("/:id", eleveCtrl.getEleve);
-router.post("/:id", eleveCtrl.giveNote)
-
-router.put("/", eleveCtrl.addEleve);
+router.post("/", eleveCtrl.addEleve);
 
 module.exports = router
 

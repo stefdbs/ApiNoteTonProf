@@ -103,9 +103,9 @@ exports.getEleve = async (req, res) => {
     }
 }
 
-exports.giveNote = (req, res) => {
-    const eleveId = parseInt(req.params.id)
-    const formateurId = parseInt(req.body.id_formateur)// Assurez-vous que id_module est dans le corps de la requête
+exports.giveNote = async (req, res) => {
+    const eleveId = parseInt(req.params.id_eleve)
+    const formateurId = parseInt(req.params.id_formateur)
     const noteValue = parseInt(req.body.value)
     const noteComment = req.body.comment
 
@@ -114,13 +114,52 @@ exports.giveNote = (req, res) => {
     }
 
     try {
-        // Vérification si le formateur existe
-        let formateur = Formateur.findOne({ where: { id_formateur: formateurId }, raw: true })
+
+        let formateur = await Formateur.findOne({ where: { id_formateur: formateurId }, raw: true })
+
+        let eleve = await Eleve.findOne({
+            where: { id_eleve: eleveId },
+            include: [
+                {
+                    model: Formation,
+                    include:
+                    {
+                        model: Module,
+                        include:
+                        {
+                            model: Formateur,
+                            attributes: ['id_formateur']
+                        },
+
+                    },
+                },
+            ]
+        })
+
+        // Vérification si le formateur existe 
+
         if (formateur === null) {
-            return res.status(409).json({ message: `The formateur ${nom} doesn't exists !` })
+            return res.status(409).json({ message: `The formateur doesn't exists !` })
         }
+        // Vérification si l'eleve existe 
+        if (eleve === null) {
+            return res.status(409).json({ message: `The eleve doesn't exists !` })
+        }
+        // Vérification si le formateur est associé à l'eleve
+
+        if (
+            eleve &&
+            eleve.Formation &&
+            eleve.Formation.Modules &&
+            eleve.Formation.Modules[0] &&
+            eleve.Formation.Modules[0].Formateur &&
+            eleve.Formation.Modules[0].Formateur.id_formateur !== formateurId
+        ) {
+            return res.status(409).json({ message: `The eleve doesn't have this formateur !` });
+        }
+
         // Vérification si l'éleve a déjà donné une note
-        const existingNote = Note.findOne({
+        const existingNote = await Note.findOne({
             where: {
                 id_eleve: eleveId,
                 id_formateur: formateurId
@@ -130,13 +169,14 @@ exports.giveNote = (req, res) => {
             return res.status(400).json({ message: 'You have already noted this teacher' });
         }
 
+        //Création de la note
         const note = Note.create({
             id_eleve: eleveId,
             id_formateur: formateurId,
             value: noteValue,
             comment: noteComment,
         })
-        return res.json({ message: "note given" })
+        return res.json({ message: "note given", data: note })
 
     } catch (err) {
         return res.status(500).json({ message: 'Database Error', error: err })
