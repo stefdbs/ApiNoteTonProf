@@ -54,3 +54,17 @@ exports.addFormateur = async (req, res) => {
         return res.status(500).json({ message: 'Database Error', error: err })
     }
 }
+
+exports.deleteFormateur = (req, res) => {
+    let formateurId = parseInt(req.params.id)
+
+    // Vérification si le champ id est présent et cohérent
+    if (!formateurId) {
+        return res.status(400).json({ message: 'Missing parameter' })
+    }
+
+    // Suppression du cocktail
+    Formateur.destroy({ where: { id: formateurId }, force: true })
+        .then(() => res.status(204).json({}))
+        .catch(err => res.status(500).json({ message: 'Database Error', error: err }))
+}

@@ -8,7 +8,7 @@ const jwt = require("jsonwebtoken");
 
 
 exports.login = (req, res, next) => {
-    Admin.findOne({ email: req.body.email })
+    Admin.findOne({ where: { email: req.body.email } })
         .then((admin) => {
             if (!admin) {
                 return res.status(400).json({ error: "Utilisateur non trouvé " });
@@ -50,6 +50,9 @@ exports.addAdmin = async (req, res) => {
         if (admin !== null) {
             return res.status(409).json({ message: `The admin ${email} already exists !` })
         }
+        // Hashage du mot de passe utilisateur
+        let hash = await bcrypt.hash(password, parseInt(process.env.BCRYPT_SALT_ROUND))
+        req.body.password = hash
 
         // Création 
         admin = await Admin.create(req.body)

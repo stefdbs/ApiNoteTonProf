@@ -11,42 +11,29 @@ const jwt = require("jsonwebtoken");
 
 
 
-exports.login = (req, res, next) => {
+exports.login = async (req, res, next) => {
     Eleve.findOne({ where: { email: req.body.email } })
         .then((eleve) => {
             if (!eleve) {
                 return res.status(400).json({ error: "Utilisateur non trouvé " });
             }
+            // vérification du mot de passe crypté et attribution du token
 
+            bcrypt.compare(req.body.password, eleve.password)
+                .then((valid) => {
+                    if (!valid) {
+                        return res.status(400).json({ error: "Mot de passe incorrect!" })
+                    }
 
-            //Methode juste pour tester le token!! mais mot de passe non crypté
-            //Dès que Bcrypt est en ordre, utiliser la méthode en dessous
-            if (req.body.password === eleve.password) {
-                res.status(200).json({
-                    eleveId: eleve.id_eleve,
-                    token: jwt.sign({ eleveId: eleve.id_eleve }, process.env.SECRET_KEY, {
-                        expiresIn: "1h"
+                    res.status(200).json({
+                        eleveId: eleve.id_eleve,
+                        token: jwt.sign({ eleveId: eleve.id_eleve }, process.env.SECRET_KEY, {
+                            expiresIn: "1h"
+                        })
                     })
-                });
-            } else {
-                res.status(400).json({ error: "Mot de passe incorrect!" });
-            }
 
-            // bcrypt.compare(req.body.password, eleve.password)
-            //     .then((valid) => {
-            //         if (!valid) {
-            //             return res.status(400).json({ error: "Mot de passe incorrect!" })
-            //         }
-
-            // res.status(200).json({
-            //     eleveId: eleve.id_eleve,
-            //     token: jwt.sign({ eleveId: eleve.id_eleve }, process.env.SECRET_KEY, {
-            //         expiresIn: "1h"
-            //     })
-            // })
-
-            //})
-            //.catch ((error) => res.status(500).json({ error }));
+                })
+                .catch((error) => res.status(500).json({ error }));
 
         })
         .catch((error) => {
@@ -150,10 +137,10 @@ exports.giveNote = async (req, res) => {
         if (
             eleve &&
             eleve.Formation &&
-            eleve.Formation.Modules &&
-            eleve.Formation.Modules[0] &&
-            eleve.Formation.Modules[0].Formateur &&
-            eleve.Formation.Modules[0].Formateur.id_formateur !== formateurId
+            eleve.Formation.Module &&
+            eleve.Formation.Module[0] &&
+            eleve.Formation.Module[0].Formateur &&
+            eleve.Formation.Module[0].Formateur.id_formateur !== formateurId
         ) {
             return res.status(409).json({ message: `The eleve doesn't have this formateur !` });
         }
@@ -197,6 +184,10 @@ exports.addEleve = async (req, res) => {
         if (eleve !== null) {
             return res.status(409).json({ message: `The student ${nom} already exists !` })
         }
+
+        // Hashage du mot de passe utilisateur
+        let hash = await bcrypt.hash(password, parseInt(process.env.BCRYPT_SALT_ROUND))
+        req.body.password = hash
 
         // Création 
         eleve = await Eleve.create(req.body)
