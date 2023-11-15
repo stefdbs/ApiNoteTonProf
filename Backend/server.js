@@ -57,28 +57,34 @@ app.use(
 
 
 // ROUTERS 
+
+const checkTokenMiddleware = require('./middleware/GuardAuth')
+
+
 const FormationRoutes = require("./routes/formation.routes")
 const ModuleRoutes = require("./routes/module.routes")
 const FormateurRoutes = require("./routes/formateur.routes")
 const EleveRoutes = require("./routes/eleve.routes")
 const AdminRoutes = require("./routes/admin.routes")
+const ContactRoutes = require("./routes/contact.routes")
 
 
 //routage principal
 app.get('/', (req, res, next) => res.send('you are online good job'))
+
 app.use("/eleves", EleveRoutes)
 app.use("/admin", AdminRoutes)
+app.use("/contact", ContactRoutes)
+
+//routage soumis au token ADMIN et non Token ELEVE
+app.use("/formations", checkTokenMiddleware, FormationRoutes)
+app.use("/modules", checkTokenMiddleware, ModuleRoutes)
+app.use("/formateurs", checkTokenMiddleware, FormateurRoutes)
+app.use("/eleves", checkTokenMiddleware, EleveRoutes)
 
 
 
-//mettre des middleware pour fermer l'acccès
-app.use("/formations", FormationRoutes)
-app.use("/modules", ModuleRoutes)
-app.use("/formateurs", FormateurRoutes)
-
-
-
-app.all('*', (req, res) => res.status(501).send('you are lost poor baby'))
+app.all('*', (req, res) => res.status(501).send('you are lost!'))
 /***********************************/
 
 
